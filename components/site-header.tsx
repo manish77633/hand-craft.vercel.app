@@ -25,8 +25,8 @@ export function SiteHeader() {
           <button aria-label="Open menu" className="grid h-9 w-9 place-items-center md:hidden" onClick={() => setOpen(true)}><Menu size={19} /></button>
           <nav aria-label="Primary navigation" className="hidden items-center gap-8 text-[13px] font-medium md:flex">
             <div className="group relative py-7"><Link href="/collections" className="hover:text-forest">Shop</Link><div className="invisible absolute left-0 top-full z-50 min-w-48 border border-line bg-ivory p-3 opacity-0 shadow-soft transition group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">{shopLinks.map(item => <Link key={item.href} href={item.href} className="block px-3 py-2 hover:bg-cream">{item.label}</Link>)}</div></div>
-            <Link href="/collections" className="hover:text-forest">Categories</Link>
-            <Link href="/about" className="hover:text-forest">Our Story</Link>
+            <Link href="/about" className="hover:text-forest">About</Link>
+            <Link href="/contact" className="hover:text-forest">Contact</Link>
           </nav>
         </div>
         <Link href="/" aria-label="MeeraHini home" className="font-serif text-[25px] leading-none tracking-[-.04em] md:text-[34px]">MeeraHini</Link>

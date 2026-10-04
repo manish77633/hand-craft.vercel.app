@@ -5,6 +5,7 @@ import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { MobileNav } from "@/components/mobile-nav";
 import { WishlistProvider } from "@/components/wishlist-provider";
+import { SiteEffects } from "@/components/site-effects";
 
 const serif = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-serif", display: "swap" });
 const sans = DM_Sans({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-sans", display: "swap" });
@@ -20,7 +21,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="en">
       <body className={`${serif.variable} ${sans.variable} font-sans antialiased`}>
-        <WishlistProvider><SiteHeader /><main>{children}</main><SiteFooter /><MobileNav /></WishlistProvider>
+        <WishlistProvider><SiteEffects /><SiteHeader /><main>{children}</main><SiteFooter /><MobileNav /></WishlistProvider>
       </body>
     </html>
   );

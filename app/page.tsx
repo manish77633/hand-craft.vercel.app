@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { Sprout } from "lucide-react";
 import { categories, products } from "@/lib/products";
 import { ProductGrid } from "@/components/product-card";
 import { Reveal } from "@/components/reveal";
@@ -10,6 +11,7 @@ export default function Home() {
     <Reveal><section className="home-hero relative overflow-hidden bg-beige">
       <Image src="/images/hero.png" alt="Embroidered cushion, jute bag and ceramic vase in a warm handmade home" fill priority sizes="100vw" className="object-cover" />
       <div className="home-hero-shade absolute inset-0" />
+      <div className="hero-floating-seal hidden md:flex" aria-hidden="true"><Sprout size={20} strokeWidth={1.3} /><span>Made<br />with care</span></div>
       <div className="shell relative flex h-full items-center"><div className="home-hero-copy max-w-[540px] text-ink">
         <p className="hidden text-[11px] font-semibold uppercase tracking-[.21em] text-forest md:block">Handmade with heart</p>
         <h1 className="font-serif font-medium leading-[.9] tracking-[-.045em]">Handcrafted<br />Treasures</h1>
@@ -28,7 +30,7 @@ export default function Home() {
 
     <Reveal><section className="bg-ivory py-10 md:py-20"><div className="shell grid gap-6 md:grid-cols-3 md:gap-8">{[["Thoughtful details","Explore product materials, dimensions, and availability on each product page."],["Easy enquiries","Ask us about a piece directly on WhatsApp before making a decision."],["Saved favourites","Keep your favourite finds in a wishlist on this device."]].map(([title,copy],index)=><div key={title} className="border-t border-line pt-4 md:pt-6"><span className="font-serif text-2xl text-forest">0{index+1}</span><h2 className="mt-2 font-serif text-xl md:mt-4 md:text-3xl">{title}</h2><p className="mt-2 max-w-sm text-[12px] leading-5 text-muted md:text-sm md:leading-6">{copy}</p></div>)}</div></section></Reveal>
 
-    <Reveal><section className="shell py-10 md:py-20"><div className="mx-auto max-w-3xl"><p className="eyebrow text-forest">A few helpful details</p><h2 className="mt-2 font-serif text-3xl md:text-5xl">Frequently asked questions</h2><div className="mt-5 divide-y divide-line border-y border-line md:mt-8">{[
+    <Reveal><section id="faq" className="shell py-10 md:py-20"><div className="mx-auto max-w-3xl"><p className="eyebrow text-forest">A few helpful details</p><h2 className="mt-2 font-serif text-3xl md:text-5xl">Frequently asked questions</h2><div className="mt-5 divide-y divide-line border-y border-line md:mt-8">{[
       ["How do I order a product?","Open a product and tap ‘Chat on WhatsApp’ to ask about its availability and next steps."],
       ["Can I save products for later?","Yes. Tap the heart on a product card to add it to your wishlist. Your saved items stay in this browser."],
       ["Can I ask for more product details?","Yes. Send us a WhatsApp enquiry and mention the product you are interested in."],

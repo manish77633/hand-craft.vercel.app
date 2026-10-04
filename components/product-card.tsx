@@ -6,7 +6,7 @@ import { WishlistButton } from "./wishlist-button";
 
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   return (
-    <article className="group min-w-0">
+    <article className="product-card group min-w-0">
       <Link href={`/products/${product.slug}`} className="image-zoom relative block aspect-[4/5] overflow-hidden rounded-lg bg-beige md:rounded-2xl">
         <Image src={product.image} alt={product.name} fill priority={priority} sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" className="object-cover" />
         {product.isNew && <span className="absolute left-2 top-2 rounded-full bg-ivory px-2 py-1 text-[9px] font-bold uppercase tracking-wider text-forest md:left-3 md:top-3 md:px-3">New</span>}

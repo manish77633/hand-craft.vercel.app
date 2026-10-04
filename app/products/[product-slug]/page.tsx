@@ -16,7 +16,10 @@ export default async function ProductPage({ params }: Props) {
   const { "product-slug": slug } = await params;
   const product = getProduct(slug);
   if (!product) notFound();
-  const related = products.filter(item => item.id !== product.id && item.category === product.category).slice(0, 4);
+  const related = [
+    ...products.filter(item => item.id !== product.id && item.category === product.category),
+    ...products.filter(item => item.id !== product.id && item.category !== product.category),
+  ].slice(0, 4);
   const price = formatPrice(product.price);
   const chatUrl = whatsappUrl(productWhatsAppMessage(product.name, price, `https://meerahini.example/products/${product.slug}`));
   const structuredData = { "@context": "https://schema.org", "@type": "Product", name: product.name, image: [`https://meerahini.example${product.image}`], description: product.description, offers: { "@type": "Offer", priceCurrency: "INR", price: product.price, availability: "https://schema.org/InStock" } };
@@ -32,7 +35,7 @@ export default async function ProductPage({ params }: Props) {
           <p className="mt-5 text-[12px] leading-[1.65] text-muted md:mt-7 md:text-[15px] md:leading-7">{product.description}</p>
           <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[10px] text-forest md:mt-8 md:text-xs"><span className="flex items-center gap-1.5"><Leaf size={14} /> Handmade</span><span className="flex items-center gap-1.5"><ShieldCheck size={14} /> Carefully packed</span></div>
           <a href={chatUrl} target="_blank" rel="noreferrer" className="product-whatsapp-cta mt-7 flex w-full items-center justify-center gap-2 rounded-xl px-5 py-3.5 text-[12px] font-semibold transition md:mt-10 md:rounded-full md:py-4 md:text-sm"><span>Chat on WhatsApp</span><MessageCircle size={17} /></a>
-          <details className="mt-6 border-t border-line py-4 md:mt-9"><summary className="cursor-pointer text-[12px] font-semibold md:text-sm">Product Details</summary><dl className="mt-4 grid grid-cols-2 gap-3 text-[12px] md:text-sm"><dt className="text-muted">Material</dt><dd>{product.material ?? "Not specified"}</dd><dt className="text-muted">Dimensions</dt><dd>{product.dimensions ?? "Not specified"}</dd><dt className="text-muted">Availability</dt><dd>{product.available ? "Available" : "Unavailable"}</dd></dl></details>
+          <details open className="mt-6 border-t border-line py-4 md:mt-9"><summary className="cursor-pointer text-[12px] font-semibold md:text-sm">Product Details</summary><dl className="mt-4 grid grid-cols-2 gap-3 text-[12px] md:text-sm"><dt className="text-muted">Material</dt><dd>{product.material ?? "Not specified"}</dd><dt className="text-muted">Dimensions</dt><dd>{product.dimensions ?? "Not specified"}</dd><dt className="text-muted">Availability</dt><dd>{product.available ? "Available" : "Unavailable"}</dd></dl></details>
         </div>
       </div>
     </div></section>

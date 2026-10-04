@@ -6,7 +6,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Sprout } from "lucide-react";
 
 export function SiteEffects() {
-  const [showSplash, setShowSplash] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
   const reduceMotion = useReducedMotion();
   const pathname = usePathname();
 
@@ -31,13 +31,6 @@ export function SiteEffects() {
       });
     }, { threshold: 0.08, rootMargin: "0px 0px -35px 0px" }) : null;
     sections.forEach((section) => observer?.observe(section));
-
-    try {
-      if (!sessionStorage.getItem("meerahini-intro-seen")) {
-        sessionStorage.setItem("meerahini-intro-seen", "1");
-        queueMicrotask(() => setShowSplash(true));
-      }
-    } catch {}
 
     return () => observer?.disconnect();
   }, [pathname]);

@@ -1,0 +1,66 @@
+@config "../tailwind.config.ts";
+@import "tailwindcss";
+
+:root {
+  --forest: #294b3b;
+  --deep: #1d352b;
+  --cream: #f8f5ef;
+  --ivory: #fffcf7;
+  --beige: #e8dfd0;
+  --sage: #a8b5a0;
+  --ink: #252820;
+  --muted: #77776d;
+  --line: #e7e1d7;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--cream); color: var(--ink); }
+body { overflow-x: hidden; }
+::selection { background: #cbd5c6; color: var(--deep); }
+a { color: inherit; text-decoration: none; }
+button, input, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 2px solid var(--forest); outline-offset: 3px; }
+
+.shell { width: min(100% - 32px, 1320px); margin-inline: auto; }
+.eyebrow { font-size: .7rem; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; }
+.serif { font-family: var(--font-serif); }
+.balance { text-wrap: balance; }
+.image-zoom img { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+.image-zoom:hover img { transform: scale(1.035); }
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item[open] .faq-plus { transform: rotate(45deg); }
+.faq-plus { transition: transform .2s ease; }
+.faq-answer { padding-top: 0; max-height: 0; overflow: hidden; opacity: 0; transition: max-height .3s ease, opacity .25s ease, padding .25s ease; }
+.faq-item[open] .faq-answer { max-height: 9rem; padding-top: .65rem; opacity: 1; }
+.home-hero { height: 500px; }
+.home-hero-shade { background: linear-gradient(90deg, rgba(248,245,239,.88) 0%, rgba(248,245,239,.74) 29%, rgba(248,245,239,0) 60%); }
+.home-hero h1 { font-size: clamp(4.5rem, 7.5vw, 7.7rem); }
+.home-hero-cta, .home-hero-cta:visited { background-color: #1d352b; color: #fff; }
+.home-hero-cta:hover, .home-hero-cta:focus-visible { background-color: #294b3b; color: #fff; }
+
+@media (max-width: 767px) {
+  .announcement { display: none; }
+  .home-hero { height: 255px; }
+  .home-hero img { object-position: 60% center; }
+  .home-hero-shade { background: linear-gradient(90deg, rgba(21,38,30,.88), rgba(21,38,30,.42) 54%, transparent 88%); }
+  .home-hero-copy { color: white; width: 55%; }
+  .home-hero h1 { font-size: 34px; letter-spacing: -.035em; }
+  .home-hero-copy p { color: white; }
+  .home-hero-cta, .home-hero-cta:visited { background-color: #fffcf7; color: #1d352b; }
+  .home-hero-cta:hover, .home-hero-cta:focus-visible { background-color: #fff; color: #1d352b; }
+  .product-shell { width: 100%; }
+  .product-copy { padding-left: 16px; padding-right: 16px; }
+  .product-main-image { max-height: 57vh; }
+  main { padding-bottom: 58px; }
+}
+
+@media (min-width: 768px) {
+  .shell { width: min(100% - 80px, 1320px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

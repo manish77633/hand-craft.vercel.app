@@ -10,7 +10,8 @@ export function SearchClient({ products }: { products: Product[] }) {
   const results = useMemo(() => {
     const value = query.trim().toLowerCase();
     if (!value) return [];
-    return products.filter((product) => [product.name, product.categoryLabel, product.description, product.material].filter(Boolean).join(" ").toLowerCase().includes(value));
+    const words = value.split(/\s+/);
+    return products.filter((product) => { const text = [product.name, product.categoryLabel, product.description, product.material].filter(Boolean).join(" ").toLowerCase(); return words.every(word => text.includes(word)); });
   }, [products, query]);
   const suggestions = ["embroidered bag", "ceramic vase", "cushion", "earrings"];
 

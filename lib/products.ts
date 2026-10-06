@@ -4,9 +4,10 @@ export type Product = {
   name: string;
   description: string;
   price: number;
-  category: "bags" | "home-decor" | "jewellery" | "textiles";
+  category: string;
   categoryLabel: string;
   image: string;
+  media?: Array<{ type: "image" | "video"; url: string; thumbnail?: string }>;
   material?: string;
   dimensions?: string;
   featured?: boolean;

@@ -1,9 +1,10 @@
-export const WHATSAPP_NUMBER = "919999999999"; // Replace with the business number.
+export const WHATSAPP_NUMBER = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "").replace(/\D/g, "");
 
-export function whatsappUrl(message: string) {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+export function whatsappUrl(message: string, number = WHATSAPP_NUMBER) {
+  const digits = number.replace(/\D/g, "");
+  return digits ? `https://wa.me/${digits}?text=${encodeURIComponent(message)}` : "/contact#contact-form";
 }
 
 export function productWhatsAppMessage(name: string, price: string, url?: string) {
-  return `Hi MeeraHini! I'm interested in the ${name}, priced at ${price}.${url ? ` Product link: ${url}` : ""} Could you please share more details?`;
+  return `Hi Ammaai! I'm interested in the ${name}, priced at ${price}.${url ? ` Product link: ${url}` : ""} Could you please share more details?`;
 }

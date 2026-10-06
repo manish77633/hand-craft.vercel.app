@@ -1,23 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
+import Image from "@/components/store-image";
 import { useState } from "react";
 import { Heart, Menu, Search, X, Home, Grid2X2, MessageCircle, Info, Mail, CircleHelp } from "lucide-react";
 import { WishlistCount } from "./wishlist-button";
 import { whatsappUrl } from "@/lib/whatsapp";
+import { BrandLogo } from "./brand-logo";
+import { useStoreSettings } from "./store-settings-provider";
 
-const shopLinks = [
-  { href: "/collections", label: "All products" },
-  { href: "/collections/bags", label: "Bags" },
-  { href: "/collections/home-decor", label: "Home Decor" },
-  { href: "/collections/textiles", label: "Textiles" },
-  { href: "/collections/jewellery", label: "Jewellery" },
-];
-
-export function SiteHeader() {
+export function SiteHeader({ categories }: { categories: Array<{ name: string; slug: string }> }) {
+  const shopLinks = [{ href: "/collections", label: "All products" }, ...categories.map(c => ({ href: `/collections/${c.slug}`, label: c.name }))];
+  const settings = useStoreSettings();
   const [open, setOpen] = useState(false);
   return <>
+    <div className="site-header-fixed">
     <div className="announcement bg-deep px-4 py-2 text-center text-[10px] font-medium tracking-[.16em] text-white/85">HANDMADE WITH HEART · ENQUIRIES ON WHATSAPP</div>
     <header className="site-header relative z-40 border-b border-line bg-ivory">
       <div className="shell flex h-[58px] items-center justify-between md:h-[78px]">
@@ -29,7 +26,7 @@ export function SiteHeader() {
             <Link href="/contact" className="hover:text-forest">Contact</Link>
           </nav>
         </div>
-        <Link href="/" aria-label="MeeraHini home" className="font-serif text-[25px] leading-none tracking-[-.04em] md:text-[34px]">MeeraHini</Link>
+        <Link href="/" aria-label="Ammaai home"><BrandLogo src={settings?.logo} /></Link>
         <div className="flex flex-1 items-center justify-end gap-1 md:gap-5">
           <Link href="/search" aria-label="Search" className="grid h-9 w-9 place-items-center"><Search size={19} strokeWidth={1.7} /></Link>
           <Link href="/wishlist" aria-label="Wishlist" className="relative hidden h-9 w-9 place-items-center md:grid"><Heart size={19} strokeWidth={1.7} /><WishlistCount /></Link>
@@ -37,19 +34,20 @@ export function SiteHeader() {
         </div>
       </div>
     </header>
+    </div><div className="site-header-spacer" aria-hidden="true" />
     {open && <div className="fixed inset-0 z-50 bg-deep/55 md:hidden" role="dialog" aria-modal="true" aria-label="Mobile menu" onClick={() => setOpen(false)}>
       <div className="ml-auto flex h-full w-[min(100%,390px)] flex-col bg-deep" onClick={event => event.stopPropagation()}>
-        <div className="flex items-center justify-between px-5 py-7 text-white"><span className="font-serif text-[27px]">MeeraHini</span><button aria-label="Close menu" onClick={() => setOpen(false)}><X size={20} /></button></div>
+        <div className="flex items-center justify-between px-5 py-7 text-white"><BrandLogo src={settings?.logo} tone="dark" /><button aria-label="Close menu" onClick={() => setOpen(false)}><X size={20} /></button></div>
         <nav className="mx-2 flex-1 rounded-t-xl bg-ivory px-5 pt-5 text-[13px]" aria-label="Mobile menu links">
           {[
             {href:"/",label:"Home",Icon:Home}, {href:"/collections",label:"Categories",Icon:Grid2X2},
             {href:"/wishlist",label:"Wishlist",Icon:Heart}, {href:"/contact",label:"Chat on WhatsApp",Icon:MessageCircle},
             {href:"/about",label:"About Us",Icon:Info}, {href:"/contact",label:"Contact Us",Icon:Mail},
-            {href:"/contact",label:"FAQs",Icon:CircleHelp}
+            {href:"/contact#faq",label:"FAQs",Icon:CircleHelp}
           ].map(({href,label,Icon},index) => <Link key={`${label}-${index}`} href={href} onClick={() => setOpen(false)} className={`flex items-center gap-4 py-4 ${index === 4 ? "mt-3 border-t border-line" : ""}`}><Icon size={17} strokeWidth={1.7} />{label}</Link>)}
           <div className="relative mt-8 h-36 overflow-hidden rounded-xl"><Image src="/images/hero.png" alt="Handmade collection" fill sizes="360px" className="object-cover" /><div className="absolute inset-0 bg-gradient-to-r from-cream/90 to-transparent" /><p className="absolute left-5 top-1/2 -translate-y-1/2 font-serif text-2xl leading-none">Handmade<br />with Heart</p></div>
         </nav>
-        <a href={whatsappUrl("Hi MeeraHini! I'd like to know more about your collection.")} target="_blank" rel="noreferrer" className="mx-2 flex items-center justify-center gap-2 bg-ivory px-5 pb-8 pt-4 text-xs font-semibold text-forest"><MessageCircle size={17} /> Chat on WhatsApp</a>
+        <a href={whatsappUrl("Hi Ammaai! I'd like to know more about your collection.", settings?.whatsapp)} target={settings?.whatsapp ? "_blank" : undefined} rel="noreferrer" className="mx-2 flex items-center justify-center gap-2 bg-ivory px-5 pb-8 pt-4 text-xs font-semibold text-forest"><MessageCircle size={17} /> {settings?.whatsapp ? "Chat on WhatsApp" : "Get in touch"}</a>
       </div>
     </div>}
   </>;

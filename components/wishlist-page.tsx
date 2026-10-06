@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { Product } from "@/lib/products";
 import { useWishlist } from "./wishlist-provider";
 import { ProductGrid } from "./product-card";
-import Image from "next/image";
+import Image from "@/components/store-image";
 import { formatPrice } from "@/lib/products";
 import { WishlistButton } from "./wishlist-button";
 

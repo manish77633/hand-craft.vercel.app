@@ -7,6 +7,7 @@ import { Reveal } from "@/components/reveal";
 import { MadeInMotion } from "@/components/made-in-motion";
 import { homeFaqs } from "@/lib/cms/default-content";
 import { ViewportVideo } from "@/components/viewport-video";
+import { TextRoll } from "@/components/core/text-roll";
 
 export const dynamic = "force-dynamic";
 
@@ -15,13 +16,14 @@ function text(value: string, fallback: string) { return value.trim() || fallback
 
 function HeroSection({ section }: { section: HomeSection }) {
   const media = section.media[0];
+  const heading = text(section.heading, "Handcrafted\nTreasures");
   return <Reveal><section className="home-hero relative overflow-hidden bg-beige">
     {media?.type === "video" ? <ViewportVideo src={media.url} poster={media.thumbnail} className="home-hero-cms-video absolute inset-0" /> : <Image src={media?.url || "/images/hero.png"} alt={media?.altText || "Embroidered cushion, jute bag and ceramic vase in a warm handmade home"} fill priority sizes="100vw" className="object-cover" />}
     <div className="home-hero-shade absolute inset-0" />
     <div className="hero-floating-seal hidden md:flex" aria-hidden="true"><Sprout size={20} strokeWidth={1.3} /><span>Made<br />with care</span></div>
     <div className="shell relative flex h-full items-center"><div className="home-hero-copy max-w-[540px] text-ink">
       <p className="hidden text-[11px] font-semibold uppercase tracking-[.21em] text-forest md:block">{text(section.subheading, "Handmade with heart")}</p>
-      <h1 className="whitespace-pre-line font-serif font-medium leading-[.9] tracking-[-.045em]">{text(section.heading, "Handcrafted\nTreasures")}</h1>
+      <h1 className="whitespace-pre-line font-serif font-medium leading-[.9] tracking-[-.045em]">{heading.split(/(treasures?)/i).map((part, index) => /^treasures?$/i.test(part) ? <TextRoll key={index}>{part}</TextRoll> : part)}</h1>
       <p className="mt-3 max-w-xs text-[12px] leading-[1.45] md:mt-6 md:max-w-md md:text-[16px] md:leading-7">{text(section.description, "Artisanal products for a more mindful home.")}</p>
       <Link href={section.button?.url || "/collections"} className="home-hero-cta mt-4 inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-[11px] font-semibold shadow-sm transition md:mt-8 md:px-7 md:py-4 md:text-[13px]">{section.button?.label || "Explore Collection"} <ArrowRight size={14} /></Link>
     </div></div>

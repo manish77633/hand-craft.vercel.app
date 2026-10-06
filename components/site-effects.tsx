@@ -11,28 +11,36 @@ export function SiteEffects() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const root = document.documentElement;
-    const sections = Array.from(document.querySelectorAll<HTMLElement>("main section"));
-    sections.forEach((section, index) => {
-      section.dataset.scrollReveal = "pending";
-      section.style.setProperty("--reveal-delay", `${Math.min(index % 3, 2) * 70}ms`);
-    });
-    root.classList.add("motion-ready");
-
-    if (!("IntersectionObserver" in window)) {
-      sections.forEach(section => { section.dataset.scrollReveal = "visible"; });
-    }
-    const observer = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
+    if (pathname.startsWith("/admin") || window.matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+    const cards = ".product-card, .motion-reel-card, .experience-card, .about-value-card, .contact-topic-card";
+    const selector = `main h1, main h2, main h3, main p, main ${cards.split(", ").join(", main ")}, main .grid > a, footer h2, footer p`;
+    const registered = new Set<HTMLElement>();
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           (entry.target as HTMLElement).dataset.scrollReveal = "visible";
-          observer?.unobserve(entry.target);
+          observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.08, rootMargin: "0px 0px -35px 0px" }) : null;
-    sections.forEach((section) => observer?.observe(section));
-
-    return () => observer?.disconnect();
+    }, { threshold: 0, rootMargin: "0px 0px 40px 0px" });
+    const register = () => {
+      document.querySelectorAll<HTMLElement>(selector).forEach(element => {
+        if (registered.has(element) || element.closest(".home-hero, details, [role=dialog]") || element.parentElement?.closest(cards)) return;
+        registered.add(element);
+        // Above-the-fold content stays immediately readable (and preserves LCP).
+        if (element.getBoundingClientRect().top < window.innerHeight) return;
+        element.dataset.scrollReveal = "pending";
+        observer.observe(element);
+      });
+    };
+    register();
+    const updates = new MutationObserver(register);
+    const main = document.querySelector("main");
+    if (main) updates.observe(main, { childList: true, subtree: true });
+    return () => {
+      observer.disconnect(); updates.disconnect();
+      registered.forEach(element => { delete element.dataset.scrollReveal; });
+    };
   }, [pathname]);
 
   useEffect(() => {

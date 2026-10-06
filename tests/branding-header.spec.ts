@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('loader uses white logo, logo adapts to backgrounds and navbar stays fixed', async ({ page }, testInfo) => {
-  await page.goto('/');
+  await page.goto('/', { waitUntil: 'domcontentloaded' });
   await expect(page.locator('.brand-splash img')).toHaveAttribute('src', /ammaai-white/);
   await expect(page.locator('.brand-splash')).toHaveCount(0, { timeout: 10000 });
   await expect(page.locator('.site-header .brand-logo img')).toBeVisible();
